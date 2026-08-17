@@ -1,0 +1,95 @@
+name: CI
+
+"on":
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native:
+    name: Native (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, windows-11-arm, macos-latest]
+        swift: ['6.3.3']
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Swift
+        uses: SwiftyLab/setup-swift@v1.14.0
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Build (debug)
+        run: swift build
+    
+      - name: Build (debug Swift fallback)
+        run: swift build -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+
+      - name: Test (debug)
+        run: swift test
+    
+      - name: Test (debug Swift fallback)
+        run: swift test -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+
+      - name: Build (release)
+        run: swift build -c release
+
+      - name: Build (release Swift fallback)
+        run: swift build -c release -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+
+      - name: Test (release)
+        run: swift test -c release
+
+      - name: Test (release Swift fallback)
+        run: swift test -c release -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+
+  static-linux:
+    name: Static Linux (${{ matrix.sdk }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: ['x86_64-swift-linux-musl', 'aarch64-swift-linux-musl']
+        swift: ['6.3.3']
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Swift and Static Linux SDK
+        uses: SwiftyLab/setup-swift@v1.14.0
+        with:
+          swift-version: ${{ matrix.swift }}
+          sdks: static-linux
+
+      - name: Show Swift version and installed SDKs
+        run: |
+          swift --version
+          swift sdk list
+
+      - name: Build with Static Linux SDK (debug)
+        run: swift build --swift-sdk ${{ matrix.sdk }}
+
+      - name: Build with Static Linux SDK (debug Swift fallback)
+        run: swift build --swift-sdk ${{ matrix.sdk }} -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+
+      - name: Build with Static Linux SDK (release)
+        run: swift build -c release --swift-sdk ${{ matrix.sdk }}
+
+      - name: Build with Static Linux SDK (release Swift fallback)
+        run: swift build -c release --swift-sdk ${{ matrix.sdk }} -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
