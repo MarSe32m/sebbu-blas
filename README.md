@@ -41,6 +41,18 @@ Its GEMM path is cache tiled but deliberately contains no manual SIMD.
 
 Add `.product(name: "SebbuBLAS", package: "sebbu-blas")` to your target.
 
+On platforms where `Accelerate` is the default backend, you need to add 
+the following settings to your target
+```swift
+    cSettings: [
+        .define("ACCELERATE_NEW_LAPACK", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+        .define("ACCELERATE_LAPACK_ILP64", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+    ],
+    linkerSettings: [
+        .linkedFramework("Accelerate", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+    ]
+```
+
 ## Validation
 
 Run the tests with both the selected platform backend and the Swift fallback:

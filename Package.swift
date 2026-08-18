@@ -5,7 +5,10 @@ import PackageDescription
 let package = Package(
     name: "sebbu-blas",
     platforms: [
-        .macOS(.v15)
+        .macOS(.v15),
+        .iOS(.v18),
+        .tvOS(.v18),
+        .watchOS(.v11)
     ],
     products: [
         .library(name: "SebbuBLAS", targets: ["SebbuBLAS"]),
@@ -33,11 +36,8 @@ let package = Package(
                 .product(name: "RealModule", package: "swift-numerics")
             ],
             cSettings: [
-                .define("ACCELERATE_NEW_LAPACK", .when(platforms: [.macOS])),
-                .define("ACCELERATE_LAPACK_ILP64", .when(platforms: [.macOS])),
-            ],
-            swiftSettings: [
-                .define("SEBBU_BLAS_FORCE_SWIFT")
+                .define("ACCELERATE_NEW_LAPACK", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+                .define("ACCELERATE_LAPACK_ILP64", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
             ],
             linkerSettings: [
                 .linkedFramework("Accelerate", .when(platforms: [.macOS])),
@@ -49,6 +49,13 @@ let package = Package(
                 "SebbuBLAS",
                 .product(name: "ComplexModule", package: "swift-numerics"),
                 .product(name: "RealModule", package: "swift-numerics")
+            ],
+            cSettings: [
+                .define("ACCELERATE_NEW_LAPACK", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+                .define("ACCELERATE_LAPACK_ILP64", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
+            ],
+            linkerSettings: [
+                .linkedFramework("Accelerate", .when(platforms: [.macOS, .iOS, .watchOS, .tvOS])),
             ]
         ),
     ]

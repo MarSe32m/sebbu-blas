@@ -86,6 +86,7 @@ extension BLAS {
 
 extension BLAS {
     @inlinable
+    @inline(always)
     public static func somatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Float, a: UnsafePointer<Float>, lda: Int, b: UnsafeMutablePointer<Float>, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_somatcopy(layout._cblas, transpose._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), b, _backendIndex(ldb))
@@ -95,6 +96,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func domatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Double, a: UnsafePointer<Double>, lda: Int, b: UnsafeMutablePointer<Double>, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_domatcopy(layout._cblas, transpose._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), b, _backendIndex(ldb))
@@ -104,6 +106,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func comatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Complex<Float>, a: UnsafePointer<Complex<Float>>, lda: Int, b: UnsafeMutablePointer<Complex<Float>>, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         withUnsafePointer(to: alpha) { alphaPointer in
@@ -115,6 +118,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func zomatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Complex<Double>, a: UnsafePointer<Complex<Double>>, lda: Int, b: UnsafeMutablePointer<Complex<Double>>, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         withUnsafePointer(to: alpha) { alphaPointer in
@@ -126,6 +130,7 @@ extension BLAS {
     }
 
     @inlinable
+    @inline(always)
     public static func simatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Float, a: UnsafeMutablePointer<Float>, lda: Int, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_simatcopy(layout._cblas, transpose._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), _backendIndex(ldb))
@@ -135,6 +140,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func dimatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Double, a: UnsafeMutablePointer<Double>, lda: Int, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_dimatcopy(layout._cblas, transpose._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), _backendIndex(ldb))
@@ -144,6 +150,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func cimatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Complex<Float>, a: UnsafeMutablePointer<Complex<Float>>, lda: Int, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         withUnsafePointer(to: alpha) { alphaPointer in
@@ -155,6 +162,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func zimatcopy(layout: Layout, transpose: Transpose, rows: Int, columns: Int, alpha: Complex<Double>, a: UnsafeMutablePointer<Complex<Double>>, lda: Int, ldb: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         withUnsafePointer(to: alpha) { alphaPointer in
@@ -168,6 +176,7 @@ extension BLAS {
 
 extension BLAS {
     @inlinable
+    @inline(always)
     public static func sgeadd(layout: Layout, transposeA: Transpose, transposeC: Transpose, rows: Int, columns: Int, alpha: Float, a: UnsafePointer<Float>, lda: Int, beta: Float, c: UnsafeMutablePointer<Float>, ldc: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_sgeadd(layout._cblas, transposeA._cblas, transposeC._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), beta, c, _backendIndex(ldc))
@@ -177,6 +186,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func dgeadd(layout: Layout, transposeA: Transpose, transposeC: Transpose, rows: Int, columns: Int, alpha: Double, a: UnsafePointer<Double>, lda: Int, beta: Double, c: UnsafeMutablePointer<Double>, ldc: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         cblas_dgeadd(layout._cblas, transposeA._cblas, transposeC._cblas, _backendIndex(rows), _backendIndex(columns), alpha, a, _backendIndex(lda), beta, c, _backendIndex(ldc))
@@ -186,6 +196,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func cgeadd(layout: Layout, transposeA: Transpose, transposeC: Transpose, rows: Int, columns: Int, alpha: Complex<Float>, a: UnsafePointer<Complex<Float>>, lda: Int, beta: Complex<Float>, c: UnsafeMutablePointer<Complex<Float>>, ldc: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         var alpha = alpha; var beta = beta
@@ -200,6 +211,7 @@ extension BLAS {
     }
     
     @inlinable
+    @inline(always)
     public static func zgeadd(layout: Layout, transposeA: Transpose, transposeC: Transpose, rows: Int, columns: Int, alpha: Complex<Double>, a: UnsafePointer<Complex<Double>>, lda: Int, beta: Complex<Double>, c: UnsafeMutablePointer<Complex<Double>>, ldc: Int) {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         var alpha = alpha; var beta = beta
