@@ -1,7 +1,7 @@
 import ComplexModule
 import RealModule
 import Testing
-@testable import SebbuBLAS
+import SebbuBLAS
 
 @Suite("BLAS tests")
 struct BLASTests {

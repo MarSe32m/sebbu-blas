@@ -58,28 +58,6 @@ extension BLAS {
         _gemm(layout: layout, transposeA: transposeA, transposeB: transposeB, m: m, n: n, k: k, alpha: alpha, a: a, lda: lda, b: b, ldb: ldb, beta: beta, c: c, ldc: ldc)
         #endif
     }
-
-    @inlinable
-    @inline(always)
-    public static func cgemm3m(layout: Layout, transposeA: Transpose, transposeB: Transpose, m: Int, n: Int, k: Int, alpha: Complex<Float>, a: UnsafePointer<Complex<Float>>, lda: Int, b: UnsafePointer<Complex<Float>>, ldb: Int, beta: Complex<Float>, c: UnsafeMutablePointer<Complex<Float>>, ldc: Int) {
-        #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
-        var alpha = alpha; var beta = beta
-        cblas_cgemm3m(layout._cblas, transposeA._cblas, transposeB._cblas, _backendIndex(m), _backendIndex(n), _backendIndex(k), &alpha, _complexFloatPointer(a), _backendIndex(lda), _complexFloatPointer(b), _backendIndex(ldb), &beta, _complexFloatPointer(c), _backendIndex(ldc))
-        #else
-        _gemm(layout: layout, transposeA: transposeA, transposeB: transposeB, m: m, n: n, k: k, alpha: alpha, a: a, lda: lda, b: b, ldb: ldb, beta: beta, c: c, ldc: ldc)
-        #endif
-    }
-    
-    @inlinable
-    @inline(always)
-    public static func zgemm3m(layout: Layout, transposeA: Transpose, transposeB: Transpose, m: Int, n: Int, k: Int, alpha: Complex<Double>, a: UnsafePointer<Complex<Double>>, lda: Int, b: UnsafePointer<Complex<Double>>, ldb: Int, beta: Complex<Double>, c: UnsafeMutablePointer<Complex<Double>>, ldc: Int) {
-        #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
-        var alpha = alpha; var beta = beta
-        cblas_zgemm3m(layout._cblas, transposeA._cblas, transposeB._cblas, _backendIndex(m), _backendIndex(n), _backendIndex(k), &alpha, _complexDoublePointer(a), _backendIndex(lda), _complexDoublePointer(b), _backendIndex(ldb), &beta, _complexDoublePointer(c), _backendIndex(ldc))
-        #else
-        _gemm(layout: layout, transposeA: transposeA, transposeB: transposeB, m: m, n: n, k: k, alpha: alpha, a: a, lda: lda, b: b, ldb: ldb, beta: beta, c: c, ldc: ldc)
-        #endif
-    }
 }
 
 // MARK: - Symmetric and Hermitian matrix multiplication

@@ -61,7 +61,7 @@ extension BLAS {
         #if canImport(COpenBLAS) && !SEBBU_BLAS_FORCE_SWIFT
         withUnsafePointer(to: alpha) { alpha in
             withUnsafePointer(to: beta) { beta in
-                cblas_caxpby(_backendIndex(n), _complexFloatPointer(aplha), _complexFloatPointer(x), _backendIndex(incX), _complexFloatPointer(beta), _complexFloatPointer(y), _backendIndex(incY))
+                cblas_caxpby(_backendIndex(n), _complexFloatPointer(alpha), _complexFloatPointer(x), _backendIndex(incX), _complexFloatPointer(beta), _complexFloatPointer(y), _backendIndex(incY))
             }
         }
         #else
