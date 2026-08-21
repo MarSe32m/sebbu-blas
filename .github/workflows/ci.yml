@@ -35,28 +35,36 @@ jobs:
         run: swift --version
 
       - name: Build (debug)
-        run: swift build
-    
+        run: swift build --scratch-path .build/native
+
       - name: Build (debug Swift fallback)
-        run: swift build -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift build --scratch-path .build/fallback
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
 
       - name: Test (debug)
-        run: swift test
-    
+        run: swift test --scratch-path .build/native --no-parallel
+
       - name: Test (debug Swift fallback)
-        run: swift test -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift test --scratch-path .build/fallback --no-parallel
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
 
       - name: Build (release)
-        run: swift build -c release
+        run: swift build --scratch-path .build/native -c release
 
       - name: Build (release Swift fallback)
-        run: swift build -c release -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift build --scratch-path .build/fallback -c release
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
 
       - name: Test (release)
-        run: swift test -c release
+        run: swift test --scratch-path .build/native -c release --no-parallel
 
       - name: Test (release Swift fallback)
-        run: swift test -c release -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift test --scratch-path .build/fallback -c release --no-parallel
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
 
   static-linux:
     name: Static Linux (${{ matrix.sdk }})
@@ -83,13 +91,17 @@ jobs:
           swift sdk list
 
       - name: Build with Static Linux SDK (debug)
-        run: swift build --swift-sdk ${{ matrix.sdk }}
+        run: swift build --scratch-path .build/native --swift-sdk ${{ matrix.sdk }}
 
       - name: Build with Static Linux SDK (debug Swift fallback)
-        run: swift build --swift-sdk ${{ matrix.sdk }} -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift build --scratch-path .build/fallback --swift-sdk ${{ matrix.sdk }}
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
 
       - name: Build with Static Linux SDK (release)
-        run: swift build -c release --swift-sdk ${{ matrix.sdk }}
+        run: swift build --scratch-path .build/native -c release --swift-sdk ${{ matrix.sdk }}
 
       - name: Build with Static Linux SDK (release Swift fallback)
-        run: swift build -c release --swift-sdk ${{ matrix.sdk }} -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
+        run: >-
+          swift build --scratch-path .build/fallback -c release --swift-sdk ${{ matrix.sdk }}
+          -Xswiftc -DSEBBU_BLAS_FORCE_SWIFT
