@@ -3,6 +3,8 @@ name: CI
 "on":
   push:
   pull_request:
+  schedule:
+  - cron: '0 0 * * *'
   workflow_dispatch:
 
 permissions:
@@ -20,14 +22,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, windows-11-arm, macos-latest]
-        swift: ['6.3.3']
+        swift: ['6.4.0']
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
 
       - name: Set up Swift
-        uses: SwiftyLab/setup-swift@v1.14.0
+        uses: SwiftyLab/setup-swift@latest
         with:
           swift-version: ${{ matrix.swift }}
 
